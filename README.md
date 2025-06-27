@@ -16,7 +16,7 @@ Neste diretório deverá conter:
 ## 3 - Uso da interfaca GUI
 
 Ao clicar no executável GUIhistograma.exe, uma janela vai abrir, onde se pede para inserir o caminho até o arquivo de entrada com dados medidos pelo granulômetro (Ex.: c:\Users\Cliente\Documentos\Malvern\amostra_teste.xlsx).
-Caso tenha interesse em salvar o gráficos, abilite a opção 'Slvar gráficos como PNG'.
+Caso tenha interesse em salvar o gráficos, abilite a opção 'Salvar gráficos como PNG'.
 
 ## 4 - Dados de saída
 
