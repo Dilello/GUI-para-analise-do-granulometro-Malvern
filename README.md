@@ -15,9 +15,9 @@ Neste diretório deverá conter:
 
 ## 3 - Uso da interfaca GUI
 
-Ao clicar no executável GUIhistograma.exe, uma janela vai abrir, onde se pede para inserir o caminho até o arquivo de entrada com dados medidos pelo granulômetro (Ex.: c:\Users\Cliente\Documentos\Malvern\amostra_teste.xlsx).
-Caso tenha interesse em salvar o gráficos, abilite a opção 'Salvar gráficos como PNG'.
+Ao clicar no executável GUIhistograma.exe, a janela do GUI vai abrir. Nesta click na opção 'Selecionar', em seguide localize e selecione o arquivo de entrada com dados medidos pelo granulômetro (Ex.: c:\Users\Cliente\Documentos\Malvern\amostra_teste.xlsx) que deseja analisar.
+Caso tenha interesse em salvar o gráficos, habilite a opção 'Salvar gráficos como PNG'.
 
 ## 4 - Dados de saída
 
-Ao clicar em Rodar Análise, serão gerados os gráficos da análise granulométrica e uma planilha de excel .xlsx com o resumo estatístico (Número de classes, Máximo, Mínimo, Média, Desvio Padrão, D10, D50, D65, D90, Modais). Este produtos serão salvos no diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
+Ao clicar em 'Rodar Análise', serão gerados os gráficos da análise granulométrica e uma planilha de excel .xlsx com o resumo estatístico (Número de classes, Máximo, Mínimo, Média, Desvio Padrão, D10, D50, D65, D90, Modais). Este produtos serão salvos no diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
