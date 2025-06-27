@@ -37,4 +37,4 @@ Caso tenha interesse em salvar o gráficos, habilite também a opção 'Salvar g
 
 ## 5 - Dados de saída
 
-Ao clicar em 'Rodar Análise', serão gerados os gráficos da análise granulométrica e uma planilha de excel .xlsx com o resumo estatístico (Número de classes, Máximo, Mínimo, Média, Desvio Padrão, D10, D50, D65, D90, Modais). Este produtos serão salvos no diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
+Ao clicar em 'Rodar Análise', serão gerados os gráficos do tipo histograma da análise granulométrica e uma planilha de excel .xlsx com o resumo estatístico (Número de classes, Máximo, Mínimo, Média, Desvio Padrão, D10, D50, D65, D90, Modais). Este produtos serão salvos no diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
