@@ -9,8 +9,9 @@ Aqui segue uma planilha teste de referência (amostra_teste.xlsx).
 
 Criar um diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
 Neste diretório deverá conter:
->> A planilha com os dados medidos pelo granulômetro;
->> O executável GUIhistograma.exe;
+
+* A planilha com os dados medidos pelo granulômetro;
+* O executável GUIhistograma.exe;
 
 ## 3 - Uso da interfaca GUI
 
