@@ -16,13 +16,13 @@ Neste diretório deverá conter:
 ## 3 - Uso da interface GUI
 
 Abrir o terminal do Anaconda, dentro da pasta onde está o seu script:
-'''
+
 cd c:\Users\Cliente\Malvern\
-'''
+
 Depois, digite:
-'''
+
 python GUIhistograma.py
-'''
+
 Ao dar enter, uma janela do GUI vai abrir. Nesta janela, clique na opção 'Selecionar', onde pedirá para localizar e selecionar o arquivo de entrada com dados medidos pelo granulômetro (Ex.: c:\Users\Cliente\Documentos\Malvern\amostra_teste.xlsx) que deseja analisar.
 Caso tenha interesse em salvar o gráficos, habilite também a opção 'Salvar gráficos como PNG'.
 
