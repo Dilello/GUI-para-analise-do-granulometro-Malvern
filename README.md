@@ -3,14 +3,14 @@
 ## 1 - Criar uma planilha.xlsx de input
 
 Nesta planilha, a primeira coluna conterá as classes de diâmetros, em mícrons, discretizados pelo granulômetro Malvern. As demais colunas deverão conter o percentual de cada classe diâmetros, onde o cabeçalho de cada coluna deve ser o nome ou código da amostra. 
-Aqui segue uma planilha teste de referência (amostra_teste.xlsx).
+Aqui segue uma planilha teste de referência (Ex.: amostra_teste.xlsx).
 
 ## 2 - Criar um diretório de trabalho
 
 Criar um diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
 Neste diretório deverá conter:
 
-* A planilha com os dados medidos pelo granulômetro;
+* A planilha (Ex.: amostra_teste.xlsx) com os dados medidos pelo granulômetro;
 * O executável GUIhistograma.exe;
 
 ## 3 - Uso da interfaca GUI
