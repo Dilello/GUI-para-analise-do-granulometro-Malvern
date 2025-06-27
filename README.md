@@ -2,7 +2,7 @@
 
 ## 1 - Criar uma planilha.xlsx de input
 
-Nesta planilha a primeira coluna são as classes de diâmetros em mícrons discretizados pelo granulômetro Malvern. As demais colunas devem conter o percentual de cada classe diâmetros, onde o cabeçalho de cada coluna é o nome ou código da amostra. 
+Nesta planilha, a primeira coluna são as classes de diâmetros em mícrons discretizados pelo granulômetro Malvern. As demais colunas devem conter o percentual de cada classe diâmetros, onde o cabeçalho de cada coluna é o nome ou código da amostra. 
 Aqui segue uma planilha teste de referência (amostra_teste.xlsx).
 
 ## 2 - Criar um diretório de trabalho
