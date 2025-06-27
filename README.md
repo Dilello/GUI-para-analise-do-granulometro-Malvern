@@ -20,13 +20,13 @@ Neste diretório deverá conter:
 
 ## 4 - Uso da interface GUI
 
-Abrir o terminal do Anaconda, dentro da pasta onde está o seu script:
+Abrir o terminal do Anaconda, dentro da pasta onde está o seu script, por exemplo:
 
 ```python
 # cd c:\Users\Cliente\Malvern\
 ```
 
-Depois, digite:
+Digite:
 
 ```python
 # python GUIhistograma.py
