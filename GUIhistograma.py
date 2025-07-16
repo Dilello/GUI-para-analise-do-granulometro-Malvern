@@ -9,8 +9,8 @@ import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-# === FUNÇÃO PRINCIPAL ===
-def gerar_histogramas_para_multiplas_amostras(df, sigma=1.5, prominence=1.0, distance=3,
+# === FUNÇÃO INDIVIDUAL (modificada para linha + legenda) ===
+def gerar_histogramas_para_multiplas_amostras(df, amostras=None, sigma=1.5, prominence=1.0, distance=3,
                                               salvar_png=False, salvar_estatisticas=False,
                                               arquivo_saida_estatisticas=None):
     unidade = 'μm'
@@ -21,7 +21,7 @@ def gerar_histogramas_para_multiplas_amostras(df, sigma=1.5, prominence=1.0, dis
         raise ValueError("O DataFrame deve ter ao menos duas colunas (diâmetro + uma amostra).")
 
     diametros = df.iloc[:, 0].values
-    nomes_amostras = df.columns[1:]
+    nomes_amostras = df.columns[1:] if amostras is None else amostras
 
     for nome_amostra in nomes_amostras:
         percentuais = df[nome_amostra].values
@@ -51,7 +51,7 @@ def gerar_histogramas_para_multiplas_amostras(df, sigma=1.5, prominence=1.0, dis
         p90 = percentil_ponderado(diametros_validos, percentuais_validos, 90)
 
         bins = np.logspace(np.log10(0.01), np.log10(10000), num_bins)
-        counts, edges = np.histogram(diametros, bins=bins, weights=percentuais)
+        counts, edges = np.histogram(diametros_validos, bins=bins, weights=percentuais_validos)
         centros = (edges[:-1] + edges[1:]) / 2
 
         smoothed = gaussian_filter1d(counts, sigma=sigma)
@@ -73,15 +73,14 @@ def gerar_histogramas_para_multiplas_amostras(df, sigma=1.5, prominence=1.0, dis
             f"Modais: {modais_str} {unidade}"
         )
 
-        # Plot
+        # === PLOT DE LINHA COM LEGENDA DESCRITIVA ===
         plt.figure(figsize=(11, 5))
-        plt.hist(diametros, bins=bins, weights=percentuais, edgecolor='black', color='cornflowerblue')
+        plt.plot(centros, smoothed, color='cornflowerblue', linewidth=2)
         plt.xscale('log')
         plt.xlabel(f'Tamanho das partículas ({unidade}) [escala log]')
         plt.ylabel('Percentual (%)')
         plt.title(nome_amostra)
         plt.grid(True, which='both', linestyle='--', alpha=0.6)
-
         plt.gca().text(1.05, 0.5, texto_legenda, transform=plt.gca().transAxes,
                        fontsize=9, verticalalignment='center',
                        bbox=dict(boxstyle="round", facecolor='whitesmoke', edgecolor='gray'))
@@ -111,6 +110,44 @@ def gerar_histogramas_para_multiplas_amostras(df, sigma=1.5, prominence=1.0, dis
         df_stats = pd.DataFrame(estatisticas)
         df_stats.to_excel(arquivo_saida_estatisticas, index=False)
 
+
+# === FUNÇÃO COMPARATIVA ===
+def gerar_grafico_comparativo(df, amostras_selecionadas, sigma=1.5, salvar_png=False, nome_saida="grafico_comparativo.png"):
+    num_bins = 100
+    bins = np.logspace(np.log10(0.01), np.log10(10000), num_bins)
+    centros = (bins[:-1] + bins[1:]) / 2
+    unidade = 'μm'
+
+    plt.figure(figsize=(12, 6))
+
+    for nome_amostra in amostras_selecionadas:
+        diametros = df.iloc[:, 0].values
+        percentuais = df[nome_amostra].values
+        mask_validos = (percentuais > 0) & (diametros > 0)
+        diametros_validos = diametros[mask_validos]
+        percentuais_validos = percentuais[mask_validos]
+
+        if len(diametros_validos) == 0:
+            continue
+
+        counts, _ = np.histogram(diametros_validos, bins=bins, weights=percentuais_validos)
+        smoothed = gaussian_filter1d(counts, sigma=sigma)
+        plt.plot(centros, smoothed, label=nome_amostra)
+
+    plt.xscale('log')
+    plt.xlabel(f'Tamanho das partículas ({unidade}) [escala log]')
+    plt.ylabel('Percentual (%)')
+    plt.title('Comparação entre Amostras Selecionadas')
+    plt.grid(True, which='both', linestyle='--', alpha=0.6)
+    plt.legend()
+    plt.tight_layout()
+
+    if salvar_png:
+        plt.savefig(nome_saida, dpi=300)
+
+    plt.show()
+
+
 # === INTERFACE GRÁFICA ===
 class InterfaceAnaliseAmostras:
     def __init__(self, master):
@@ -124,18 +161,40 @@ class InterfaceAnaliseAmostras:
         self.entrada_btn = tk.Button(master, text="Selecionar", command=self.selecionar_arquivo)
         self.entrada_btn.grid(row=0, column=2)
 
+        self.check_frame = tk.LabelFrame(master, text="Selecionar Amostras")
+        self.check_frame.grid(row=1, column=0, columnspan=3, pady=10, sticky="ew")
+        self.amostras_vars = {}
+
         self.salvar_png_var = tk.IntVar()
-        self.salvar_png_check = tk.Checkbutton(master, text="Salvar gráficos como PNG", variable=self.salvar_png_var)
+        self.salvar_png_check = tk.Checkbutton(master, text="Salvar gráfico comparativo como PNG", variable=self.salvar_png_var)
         self.salvar_png_check.grid(row=2, column=1, sticky="w", pady=5)
 
         self.rodar_btn = tk.Button(master, text="Rodar Análise", command=self.rodar_analise, bg="green", fg="white")
-        self.rodar_btn.grid(row=3, column=1, pady=15)
+        self.rodar_btn.grid(row=3, column=1, pady=10)
 
     def selecionar_arquivo(self):
         caminho = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
         if caminho:
             self.entrada_entry.delete(0, tk.END)
             self.entrada_entry.insert(0, caminho)
+
+            try:
+                df = pd.read_excel(caminho)
+                self.df = df
+                nomes_amostras = df.columns[1:]
+
+                for widget in self.check_frame.winfo_children():
+                    widget.destroy()
+                self.amostras_vars.clear()
+
+                for i, nome in enumerate(nomes_amostras):
+                    var = tk.BooleanVar(value=True)
+                    chk = tk.Checkbutton(self.check_frame, text=nome, variable=var)
+                    chk.grid(row=i // 3, column=i % 3, sticky="w")
+                    self.amostras_vars[nome] = var
+
+            except Exception as e:
+                messagebox.showerror("Erro", f"Erro ao carregar arquivo: {str(e)}")
 
     def rodar_analise(self):
         caminho_entrada = self.entrada_entry.get()
@@ -145,27 +204,38 @@ class InterfaceAnaliseAmostras:
             messagebox.showerror("Erro", "Arquivo de entrada inválido.")
             return
 
-        try:
-            df = pd.read_excel(caminho_entrada)
+        amostras_selecionadas = [nome for nome, var in self.amostras_vars.items() if var.get()]
+        if not amostras_selecionadas:
+            messagebox.showwarning("Aviso", "Nenhuma amostra selecionada.")
+            return
 
-            # Criar caminho de saída automático
+        try:
+            df = self.df
             nome_entrada = os.path.basename(caminho_entrada)
             nome_base = os.path.splitext(nome_entrada)[0]
             diretorio = os.path.dirname(caminho_entrada)
-            caminho_saida = os.path.join(diretorio, f"estatisticas_{nome_base}.xlsx")
+            caminho_saida_excel = os.path.join(diretorio, f"estatisticas_{nome_base}.xlsx")
+            caminho_saida_png = os.path.join(diretorio, "grafico_comparativo.png")
 
+            # === Gera gráficos individuais ===
             gerar_histogramas_para_multiplas_amostras(
                 df,
+                amostras=amostras_selecionadas,
                 salvar_png=bool(salvar_png),
                 salvar_estatisticas=True,
-                arquivo_saida_estatisticas=caminho_saida
+                arquivo_saida_estatisticas=caminho_saida_excel
             )
 
-            messagebox.showinfo("Sucesso", f"Análise concluída!\nArquivo salvo em:\n{caminho_saida}")
+            # === Gera gráfico comparativo ===
+            gerar_grafico_comparativo(df, amostras_selecionadas, salvar_png=bool(salvar_png), nome_saida=caminho_saida_png)
+
+            messagebox.showinfo("Sucesso", f"Análise concluída!\nEstatísticas: {caminho_saida_excel}")
+
         except Exception as e:
             messagebox.showerror("Erro durante execução", str(e))
-            
-    # === RODAR APP ===
+
+
+# === EXECUTA A INTERFACE ===
 if __name__ == "__main__":
     root = tk.Tk()
     app = InterfaceAnaliseAmostras(root)
