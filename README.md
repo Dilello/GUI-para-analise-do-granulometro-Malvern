@@ -3,7 +3,8 @@
 ## 1 - Pré-Requisitos
 
 * Instalar o Anaconda do python;
-
+* IMPORTANTE: Os nomes das amostras não devem ter acentos ou pontuções que possa gerar conflito de leitura.
+  
 ## 2 - Criar um diretório de trabalho
 
 Criar um diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
