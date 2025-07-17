@@ -9,7 +9,7 @@
 Criar um diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
 Neste diretório deverá conter:
 
-* A planilha (Ex.: amostra_teste.txt) com os dados medidos pelo granulômetro;
+* A planilha (Ex.: 11072025_ Tipos de sedimentos.txt) com os dados medidos pelo granulômetro;
 * A rotina GUIhistograma.py;
 
 ## 3 - Uso da interface GUI
@@ -26,7 +26,7 @@ Digite:
 # python GUIhistograma.py
 ```
 
-Ao clicar enter, uma janela do GUI vai abrir. Nesta janela, clique na opção 'Selecionar', onde pedirá para localizar e selecionar o arquivo de entrada com dados medidos pelo granulômetro (Ex.: c:\Users\Cliente\Documentos\Malvern\amostra_teste.txt) que deseja analisar.
+Ao clicar enter, uma janela do GUI vai abrir. Nesta janela, clique na opção 'Selecionar', onde pedirá para localizar e selecionar o arquivo de entrada com dados medidos pelo granulômetro (Ex.: c:\Users\Cliente\Documentos\Malvern\11072025_ Tipos de sedimentos.txt) que deseja analisar.
 Caso tenha interesse em salvar o gráficos, habilite também a opção 'Salvar gráficos como PNG'.
 
 ## 4 - Dados de saída
