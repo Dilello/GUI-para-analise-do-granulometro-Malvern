@@ -180,27 +180,41 @@ class InterfaceAnaliseAmostras:
         self.rodar_btn = tk.Button(master, text="Rodar Análise", command=self.rodar_analise, bg="green", fg="white")
         self.rodar_btn.grid(row=3, column=1, pady=10)
 
+    
     def selecionar_arquivo(self):
-        caminho = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
+        caminho = filedialog.askopenfilename(filetypes=[("Arquivos de Texto", "*.txt")])
         if caminho:
             self.entrada_entry.delete(0, tk.END)
             self.entrada_entry.insert(0, caminho)
-
+    
             try:
-                df = pd.read_excel(caminho)
-                self.df = df
-                nomes_amostras = df.columns[1:]
-
+                # Lê o arquivo txt separado por tabulação
+                df_raw = pd.read_csv(caminho, sep='\t', header=None)
+    
+                # Cria novo DataFrame com index = diametros e colunas = amostras
+                diametro_microns = df_raw.iloc[1, 30:130].values
+                dados = df_raw.iloc[2:, 30:130].transpose()
+                nomes_amostras = df_raw.iloc[2:, 0].values
+    
+                df_processado = pd.DataFrame(dados)
+                df_processado.index = diametro_microns
+                df_processado.columns = nomes_amostras
+                df_processado.index.name = 'diametro_microns'
+                df_processado.reset_index(inplace=True)
+    
+                self.df = df_processado
+    
+                # Atualiza a interface de seleção de amostras
                 for widget in self.check_frame.winfo_children():
                     widget.destroy()
                 self.amostras_vars.clear()
-
-                for i, nome in enumerate(nomes_amostras):
+    
+                for i, nome in enumerate(df_processado.columns[1:]):
                     var = tk.BooleanVar(value=True)
                     chk = tk.Checkbutton(self.check_frame, text=nome, variable=var)
                     chk.grid(row=i // 3, column=i % 3, sticky="w")
                     self.amostras_vars[nome] = var
-
+    
             except Exception as e:
                 messagebox.showerror("Erro", f"Erro ao carregar arquivo: {str(e)}")
 
@@ -233,11 +247,18 @@ class InterfaceAnaliseAmostras:
                 salvar_estatisticas=True,
                 arquivo_saida_estatisticas=caminho_saida_excel
             )
-
+            
+            # === Salva planilha com os dados processados de entrada ===
+            caminho_dados_processados = os.path.join(diretorio, f"dados_processados_{nome_base}.xlsx")
+            df.to_excel(caminho_dados_processados, index=False)
             # === Gera gráfico comparativo ===
             gerar_grafico_comparativo(df, amostras_selecionadas, salvar_png=bool(salvar_png), nome_saida=caminho_saida_png)
 
-            messagebox.showinfo("Sucesso", f"Análise concluída!\nEstatísticas: {caminho_saida_excel}")
+            messagebox.showinfo("Sucesso", 
+                                "Análise concluída!\n"
+                                f"Estatísticas: {caminho_saida_excel}\n"
+                                f"Dados de entrada: {caminho_dados_processados}"
+            )
 
         except Exception as e:
             messagebox.showerror("Erro durante execução", str(e))
