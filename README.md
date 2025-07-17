@@ -2,20 +2,14 @@
 
 ## 1 - Pré-Requisitos
 
-* Instalar Excel;
 * Instalar o Anaconda do python;
 
-## 2 - Criar uma planilha.xlsx de input
-
-Nesta planilha, a primeira coluna conterá as classes de diâmetros, em mícrons, discretizados pelo granulômetro Malvern. As demais colunas deverão conter o percentual de cada classe diâmetros, onde o cabeçalho de cada coluna deve ser o nome ou código da amostra. 
-Aqui segue uma planilha teste de referência (Ex.: amostra_teste.xlsx).
-
-## 3 - Criar um diretório de trabalho
+## 2 - Criar um diretório de trabalho
 
 Criar um diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
 Neste diretório deverá conter:
 
-* A planilha (Ex.: amostra_teste.xlsx) com os dados medidos pelo granulômetro;
+* A planilha (Ex.: amostra_teste.txt) com os dados medidos pelo granulômetro;
 * A rotina GUIhistograma.py;
 
 ## 4 - Uso da interface GUI
@@ -32,7 +26,7 @@ Digite:
 # python GUIhistograma.py
 ```
 
-Ao clicar enter, uma janela do GUI vai abrir. Nesta janela, clique na opção 'Selecionar', onde pedirá para localizar e selecionar o arquivo de entrada com dados medidos pelo granulômetro (Ex.: c:\Users\Cliente\Documentos\Malvern\amostra_teste.xlsx) que deseja analisar.
+Ao clicar enter, uma janela do GUI vai abrir. Nesta janela, clique na opção 'Selecionar', onde pedirá para localizar e selecionar o arquivo de entrada com dados medidos pelo granulômetro (Ex.: c:\Users\Cliente\Documentos\Malvern\amostra_teste.txt) que deseja analisar.
 Caso tenha interesse em salvar o gráficos, habilite também a opção 'Salvar gráficos como PNG'.
 
 ## 5 - Dados de saída
