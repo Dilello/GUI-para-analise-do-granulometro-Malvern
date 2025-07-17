@@ -1,4 +1,8 @@
-#GUI histograma
+# ===========================
+# GUI para pós-processamento e histograma de dados gerados pelo Granulômetro a laser Malvern
+# Nome: Marcelo Di Lello Jordão
+# Contato: dilello@oceanica.ufrj.br
+# ===========================
 
 import pandas as pd
 import matplotlib.pyplot as plt
