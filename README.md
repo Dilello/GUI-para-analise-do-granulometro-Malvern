@@ -9,7 +9,7 @@
 Criar um diretório de trabalho (Ex.: c:\Users\Cliente\Documentos\Malvern\)
 Neste diretório deverá conter:
 
-* A planilha (Ex.: 11072025_ Tipos de sedimentos.txt) com os dados medidos pelo granulômetro;
+* O arquivo .txt (Ex.: 11072025_ Tipos de sedimentos.txt) com os dados medidos pelo granulômetro;
 * A rotina GUIhistograma.py;
 
 ## 3 - Uso da interface GUI
