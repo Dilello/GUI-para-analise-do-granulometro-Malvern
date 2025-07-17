@@ -75,7 +75,8 @@ def gerar_histogramas_para_multiplas_amostras(df, amostras=None, sigma=1.5, prom
 
         # === PLOT DE LINHA COM LEGENDA DESCRITIVA ===
         plt.figure(figsize=(11, 5))
-        plt.plot(centros, smoothed, color='cornflowerblue', linewidth=2)
+        mask_maiores_que_zero = smoothed > 0
+        plt.plot(centros[mask_maiores_que_zero], smoothed[mask_maiores_que_zero], color='cornflowerblue', linewidth=2)
         plt.xscale('log')
         plt.xlabel(f'Tamanho das partículas ({unidade}) [escala log]')
         plt.ylabel('Percentual (%)')
@@ -132,7 +133,8 @@ def gerar_grafico_comparativo(df, amostras_selecionadas, sigma=1.5, salvar_png=F
 
         counts, _ = np.histogram(diametros_validos, bins=bins, weights=percentuais_validos)
         smoothed = gaussian_filter1d(counts, sigma=sigma)
-        plt.plot(centros, smoothed, label=nome_amostra)
+        mask_maiores_que_zero = smoothed > 0
+        plt.plot(centros[mask_maiores_que_zero], smoothed[mask_maiores_que_zero], label=nome_amostra)
 
     plt.xscale('log')
     plt.xlabel(f'Tamanho das partículas ({unidade}) [escala log]')
